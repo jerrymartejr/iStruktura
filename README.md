@@ -1,5 +1,6 @@
 # **iStruktura**
 ### Video Demo: https://youtu.be/wOYjRWwPF0c
+<hr>
 ### Description
 **iStruktura** is a web app where Civil/Structural Engineers and Civil Engineering students can use to design structural members including but not limited to Singly-Reinforced Beam, Doubly-Reinforced Beam, Column and Isolated Footing.
 ### Why I Developed This App
