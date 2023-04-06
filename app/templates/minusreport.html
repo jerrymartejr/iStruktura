@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Subtraction Calculator - {{ member.member_name }}
+{% endblock %}
+
+{% block main %}
+
+<div style="background-color: gray; height: 30vh; width: 30vh;">
+    <h3>Structural Report</h3>
+    <p>{{ subnum.minuend }} - {{ subnum.subtrahend }} = {{ subnum.difference }}</p>
+</div>
+
+
+{% endblock %}

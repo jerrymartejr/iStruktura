@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Design Tools
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <h3 class="tool-header">Design Tools</h3>
+    <div class="recent">
+        <a href="{{ url_for('singly') }}" class="tool-card">
+            <div class="singly">
+                <img src="static/images/Singly-Reinforced Beam.png">
+            </div>
+            <div>
+                <p class="tool-name">Singly-Reinforced Beam</p>
+            </div>
+        </a>
+        <a href="{{ url_for('doubly') }}" class="tool-card">
+            <div class="singly">
+                <img src="static/images/Doubly-Reinforced Beam.png">
+            </div>
+            <div>
+                <p class="tool-name">Doubly-Reinforced Beam</p>
+            </div>
+        </a>
+        <div class="tool-card">
+            <div class="column">
+                <img src="static/images/Column.png">
+            </div>
+            <div>
+                <p class="tool-name">Column</p>
+            </div>
+        </div>
+        <div class="tool-card">
+            <div class="footing">
+                <img src="static/images/Footing.png">
+            </div>
+            <div>
+                <p class="tool-name">Footing</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

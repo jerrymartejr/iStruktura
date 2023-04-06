@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <meta name="author" content="Jerry Marte">
+        <meta name="description" content="iStruktura is online structural designer for Structural Engineers and Civil Engineering students.">
+        <link href="static/styles.css" rel="stylesheet">
+        <script src="static/main.js" defer></script>
+        <title>iStruktura - Login</title>
+    </head>
+    <body>
+        <main>
+            <div class="split full-height">
+                <div class="login-form-wrapper flex">
+                    <header class="login-header flex">
+                        <div class="logo flex">
+                            <img src="static/images/iStruktura-logo-login.png">
+                            <span>iStruktura</span>
+                        </div>
+                    </header>
+                    <h2 class="secondary-header">Welcome back!</h2>
+                    <p class="small-header">Login to your account</p>
+                    <div class="login-form flex">
+                        <form action="" method="post" novalidate>
+                            {{ form.hidden_tag() }}
+                            <p>
+                                {{ form.username.label(class="login-label") }}
+                                <br>
+                                {{ form.username(size=32, class="login-input login-username") }}
+                                <br>
+                                {% for error in form.username.errors %}
+                                <span class="error">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+                            <p>
+                                {{ form.password.label(class="login-label") }}
+                                <br>
+                                {{ form.password(size=32, class="login-input login-password") }}
+                                <br>
+                                {% for error in form.password.errors %}
+                                <span class="error">[{{ error }}]</span>
+                                {% endfor %}
+                            </p>
+                            <p id="remember-me">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                            <p>{{ form.submit(class="fix-this", id="login-button") }}</p>
+                        </form>
+                    </div>
+                    <p class="redirect">Don't have an account? <a href="{{ url_for('register') }}">Sign Up Now</a></p>
+                </div>
+                <div class="right-pane">
+                    <h2>ONLINE STRUCTURAL DESIGNER</h2>
+                    <h1>Make it easier to manage your Structural Designs.</h1>
+                    <p>
+                        Create and access your structural member designs in your smartphone or desktop.
+                    </p>
+                    <div class="carousel">
+                        <div>
+                            <img src="static/images/design.png">
+                            <p>Design</p>
+                        </div>
+                        <div>
+                            <img src="static/images/result.png">
+                            <p>Summary</p>
+                        </div>
+                        <div>
+                            <img src="static/images/report.PNG">
+                            <p>Report</p>
+                        </div>
+                        <div>
+                            <img src="static/images/save.png">
+                            <p>Save</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <meta name="author" content="Jerry Marte">
+        <meta name="description" content="iStruktura is online structural designer for Structural Engineers and Civil Engineering students.">
+        <link href="static/styles.css" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="static/images/iStruktura-logo.png">
+        <link href='https://fonts.googleapis.com/css?family=Josefin Sans' rel='stylesheet'>
+        <script src="static/main.js" defer></script>
+        <title>iStruktura - {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        {% if current_user.is_anonymous %}
+        <header class="primary-header flex">
+            <div class="logo flex">
+                <img src="static/images/iStruktura-logo.png">
+                <span>iStruktura</span>
+            </div>
+            <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                <span class="sr-only">Menu</span>
+            </button>
+            <nav>
+                <ul id="primary-navigation" data-visible="false" class="primary-navigation flex">
+                    <li>
+                        <a href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <!--li>
+                        <a href="{{ url_for('productfeatures') }}">Product Features</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('contactus') }}">Contact Us</a>
+                    </li-->
+                    <li>
+                        <a href="{{ url_for('login') }}">Log In</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('register') }}">Sign Up</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        {% else %}
+        <header class="primary-header flex">
+            <div class="logo flex">
+                <img src="static/images/iStruktura-logo.png">
+                <span>iStruktura</span>
+            </div>
+            <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                <span class="sr-only">Menu</span>
+            </button>
+            <nav>
+                <ul id="primary-navigation" data-visible="false" class="primary-navigation flex">
+                    <li>
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('files') }}">Files</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('designtools') }}">Design Tools</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('edit_profile') }}">Account Settings</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('logout') }}">Log Out</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        {% endif %} 
+
+        {% if get_flashed_messages() %}
+        <header>
+            <div class="flash" role="alert">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+        </header>
+        {% endif %}
+
+        <main>
+            {% block main %}{% endblock %}
+        </main>
+
+        <footer>
+            Copyright &#169; 2022 | iStruktura
+        </footer>
+    </body>
+</html>
+

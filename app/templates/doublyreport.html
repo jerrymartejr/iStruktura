@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Design of Doubly-Reinforced Beam
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="main-header">Doubly-Reinforced Beam</h1>
+    <div class="main-container">
+        <div class="parameter">
+            <div class="container">
+                <h2 class="design-header">Design Parameters</h2>
+                <div class="singly-drawing">
+                    <img src="static/images/doubly.png">
+                </div>
+                <div class="form-wrapper">
+                    <form action="" method="post" novalidate>
+                        {{ form2.hidden_tag() }}
+                        <p class="design-name">
+                            {{ form2.member_name.label }}
+                            {{ form2.member_name(size=32, value=member.member_name, disabled=True) }}
+                            <br>
+                        </p>
+                        <div class="parameter-container">
+                            <div class="sub-container">
+                                <h3>Dimensions</h3>
+                                <p>
+                                    {{ form2.h.label }}
+                                    {{ form2.h(size=10, value=beam.h, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.b.label }}
+                                    {{ form2.b(size=10, value=beam.b, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.cc.label }}
+                                    {{ form2.cc(size=10, value=beam.cc, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.dbm.label }}
+                                    {{ form2.dbm(size=10, value=beam.dbm, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.dbv.label }}
+                                    {{ form2.dbv(size=10, value=beam.dbv, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.Lc.label }}
+                                    {{ form2.Lc(size=10, value=beam.Lc, disabled=True) }}
+                                    <br>
+                                </p>
+                            </div>
+                            <div class="sub-container">
+                                <h3>Materials</h3>
+                                <p>
+                                    {{ form2.fc.label }}
+                                    {{ form2.fc(size=10, value=beam.fc, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.fy.label }}
+                                    {{ form2.fy(size=10, value=beam.fy, disabled=True) }}
+                                    <br>
+                                </p>
+                                <p>
+                                    {{ form2.k.label }}
+                                    {{ form2.k(size=10, value=beam.k, disabled=True) }}
+                                    <br>
+                                </p>
+                            </div>
+                            <div class="sub-container">
+                                <h3>Loads</h3>
+                                <p>
+                                    {{ form2.Mu.label }}
+                                    {{ form2.Mu(size=10, value=beam.Mu, disabled=True) }}
+                                    <br>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="button-center">
+                        <form action="/detailedreport" method="post">                                           
+                            {{ form.hidden(value=member.id) }}
+                            {{ form.submit(class="fix-this", id="detailed-button", value="View Detailed Report") }}
+                        </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="result">
+            <div class="container">
+                <h2 class="result-header">Design Result Summary</h2>
+                <div class="result-summary">
+                    <h3>Dimension check</h3>
+                    <table>
+                        <tr>
+                            <td>Minimum width check</td>
+                            <td>b ≥ min(0.3 * h, 250mm)</td>
+                            {% if beam.b_check == '✓' %}
+                            <td>{{ beam.b_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Minimum span check</td>
+                            <td>L<sub>c</sub> ≥ 4 * d</td>
+                            {% if beam.span_check == '✓' %}
+                            <td>{{ beam.span_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <h3>Flexure Design</h3>
+                    <table>
+                        <tr>
+                            <td>Ductility check</td>
+                            <td>ρ<sub>min</sub> &#60; ρ<sub>req</sub> &#60; ρ<sub>max</sub></td>
+                            {% if beam.duct_check == '✓' %}
+                            <td>{{ beam.duct_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Yield check</td>
+                            <td>fs > 415 MPa</td>
+                            {% if beam.yield_check == '✓' %}
+                            <td>{{ beam.yield_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Doubly check</td>
+                            <td>fs &#60; 1000 MPa</td>
+                            {% if beam.doubly_check == '✓' %}
+                            <td>{{ beam.doubly_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <p>Provide {{ beam.Nspf }}-{{ beam.dbm }}mm⌀ top bars and {{ beam.Nsdf }}-{{ beam.dbm }}mm⌀ bottom bars</p>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+{% endblock %}

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <meta name="author" content="Jerry Marte">
+        <meta name="description" content="iStruktura is online structural designer for Structural Engineers and Civil Engineering students.">
+        <link href="static/styles.css" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="static/images/iStruktura-logo.png">
+        <link href='https://fonts.googleapis.com/css?family=Josefin Sans' rel='stylesheet'>
+        <script src="static/main.js" defer></script>
+        <title>iStruktura - Detailed Structural Report</title>
+    </head>
+    <body class="body-print">
+        <main class="print">
+            <h1>Detailed Structural Report</h1>
+            <br>
+            <h2>{{ member.member_name }}</h2>
+            <br>
+            <h3>Design Data</h3>
+            <br>
+            <h4>Dimensions</h4>
+            <table class="detailed-table">
+                <tr>
+                    <td>h = <span>{{ beam.h }}</span>mm</td>
+                    <td>c<sub>c</sub> = <span>{{ beam.cc }}</span>mm</td>
+                    <td>db<sub>v</sub> = <span>{{ beam.dbv }}</span>mm</td>
+                </tr>
+                <tr>
+                    <td>b = <span>{{ beam.b }}</span>mm</td>
+                    <td>db = <span>{{ beam.dbm }}</span>mm</td>
+                    <td>L<sub>c</sub> = <span>{{ beam.Lc }}</span>m</td>
+                </tr>
+            </table>
+            <br>
+            <h4>Material Specs</h4>
+            <table class="detailed-table">
+                <tr>
+                    <td>fc = <span>{{ beam.fc }}</span>MPa</td>
+                    <td>fy<sub>v</sub> = <span>{{ beam.fyv }}</span>MPa</td>
+                    <td>k = <span>{{ beam.k }}</span></td>
+                </tr>
+                <tr>
+                    <td>fy = <span>{{ beam.fy }}</span>MPa</td>
+                    <td>λ = <span>{{ beam.λ }}</span></td>
+                </tr>
+            </table>
+            <br>
+            <h4>Applied Loads</h4>
+            <table class="detailed-table">
+                <tr>
+                    <td>Mu<sub>s</sub> = <span>{{ beam.Mus }}</span>kN-m</td>
+                    <td>Vu = <span>{{ beam.Vu }}</span>kN</td>
+                    <td>V<sub>DL</sub> = <span>{{ beam.Vdl }}</span>kN</td>
+                </tr>
+                <tr>
+                    <td>Mu<sub>m</sub> = <span>{{ beam.Mum }}</span>kN-m</td>
+                    <td>Pu = <span>{{ beam.Pu }}</span>kN</td>
+                    <td>V<sub>LL</sub> = <span>{{ beam.Vll }}</span>kN</td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <h3>Preliminary Sizing</h3>
+            <br>
+            <p>Checking for minimum beam width and span:</p>
+            <br>
+            <p>d = h - c<sub>c</sub> - db<sub>v</sub> - 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>db</mi>
+                      <mi>2</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.d}}mm
+            </p>
+            <br>
+            <p>Since b > min(0.3 x h, 250mm), beam width is <b>OK</b></p>
+            <br>
+            <p>Since L<sub>c</sub> > (4 x d), beam span is <b>OK</b></p>
+            <br>
+            <br>
+            <h3>Flexure Design</h3>
+            <br>
+            <p>if fc ≤ 28MPa:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp; β<sub>1</sub> = 0.85</p>
+            <p>else:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp; β<sub>1</sub> = max(0.65, 0.85 - 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>0.05</mi>
+                      <mi>7</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    x (fc - 28))
+            </p>
+            <br>
+            <p>β<sub>1</sub> = {{ beam.B1 }}</p>
+            <br>
+            <p>ρ<sub>bal</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>0.85 x fc x β<sub>1</sub> x 600</mi>
+                      <mi>fy x (600 + fy)</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.pbal }}
+            </p>
+            <br>
+            <p>ρ<sub>max</sub> = min(0.025, k x ρ<sub>bal</sub>) = {{ beam.pmax }}</p>
+            <br>
+            <p>ρ<sub>min</sub> = max(
+                <math>
+                <mrow>
+                    <mfrac>
+                     <mi>1.4
+                     <mi>fy</mi>
+                    </mfrac>
+                   </mrow>
+                  </math>, 
+                  <math>
+                  <mrow>
+                    <mfrac>
+                     <mi>0.025 x √fc</mi>
+                     <mi>fy</mi>
+                    </mfrac>
+                   </mrow>
+                  </math>)
+                   = {{ beam.pmin }}
+            </p>
+            <br>
+            <br>
+            <h4>@support</h4>
+            <p>Assuming tension controlled and singly-reinforced:</p>
+            <br>
+            <p>Φ = {{ beam.Φ }}</p>
+            <br>
+            <p>Rn = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Mu<sub>s</sub></mi>
+                      <mi>Φ x b x d<sup>2</sup></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.Rns }}MPa
+            </p>
+            <br>
+            <p>ρ<sub>req</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>0.85 x fc</mi>
+                      <mi>fy</mi>
+                     </mfrac>
+                    </mrow>
+                   </math> x 
+                   (1 - √1 - 
+                   <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>2 x Rn</mi>
+                      <mi>0.85 x fc</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>)
+                    = {{ beam.preqs }}
+            </p>
+            <br>
+            <h4>Ductility Check</h4>
+            <br>
+            <p>Since ρ<sub>min</sub> &#60; ρ<sub>req</sub> &#60; ρ<sub>max</sub>, <b>OK</b></p>
+            <br>
+            <br>
+            <p>As<sub>req</sub> = ρ<sub>req</sub> x b x d = {{ beam.Asreqs }}mm<sup>2</sup></p>
+            <br>
+            <p>a = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>As<sub>req</sub> x fy</mi>
+                      <mi>0.85 x fc x b</mi>
+                     </mfrac>
+                    </mrow>
+                   </math> 
+                    = {{ beam.ass }}mm
+            </p>
+            <br>
+            <p>c = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>a</mi>
+                      <mi>β<sub>1</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math> 
+                    = {{ beam.cs }}mm
+            </p>
+            <br>
+            <p>fs = 600 x 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>d - c</mi>
+                      <mi>c</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.fss }}MPa
+            </p>
+            <br>
+            <p>Since fs > 415MPa, steel will yield</p>
+            <p>Since fs > 1000MPa, tension controlled & singly-reinforced</p>
+            <br>
+            <br>
+            <h4>Longitudinal Reinforcement Design</h4>
+            <br>
+            <p>N = 
+                <math>
+                <mrow>
+                    <mfrac>
+                     <mi>As<sub>req</sub></mi>
+                     <mi>π/4 x db<sup>2</sup></mi>
+                    </mfrac>
+                   </mrow>
+                  </math>
+                   = {{ beam.Ns }}
+            </p>
+            <br>
+            <p>number of top bars = ceil(N) = {{ beam.Nst }}</p>
+            <br>
+            <p>mumber of bottom bars = max(2, ceil(
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>N</mi>
+                      <mi>2</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>))
+                    = {{ beam.Nsb }}
+            </p>
+            <br>
+            <br>
+            <h4>@midspan</h4>
+            <p>Assuming tension controlled and singly-reinforced:</p>
+            <br>
+            <p>Φ = {{ beam.Φ }}</p>
+            <br>
+            <p>Rn = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Mu<sub>s</sub></mi>
+                      <mi>Φ x b x d<sup>2</sup></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.Rnm }}MPa
+            </p>
+            <br>
+            <p>ρ<sub>req</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>0.85 x fc</mi>
+                      <mi>fy</mi>
+                     </mfrac>
+                    </mrow>
+                   </math> x 
+                   (1 - √1 - 
+                   <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>2 x Rn</mi>
+                      <mi>0.85 x fc</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>)
+                    = {{ beam.preqm }}
+            </p>
+            <br>
+            <h4>Ductility Check</h4>
+            <br>
+            <p>Since ρ<sub>min</sub> &#60; ρ<sub>req</sub> &#60; ρ<sub>max</sub>, <b>OK</b></p>
+            <br>
+            <br>
+            <p>As<sub>req</sub> = ρ<sub>req</sub> x b x d = {{ beam.Asreqm }}<sup>2</sup></p>
+            <br>
+            <p>a = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>As<sub>req</sub> x fy</mi>
+                      <mi>0.85 x fc x b</mi>
+                     </mfrac>
+                    </mrow>
+                   </math> 
+                    = {{ beam.am }}mm
+            </p>
+            <br>
+            <p>c = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>a</mi>
+                      <mi>β<sub>1</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math> 
+                    = {{ beam.cm }}mm
+            </p>
+            <br>
+            <p>fs = 600 x 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>d - c</mi>
+                      <mi>c</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.fsm }}MPa
+            </p>
+            <br>
+            <p>Since fs > 415MPa, steel will yield</p>
+            <p>Since fs > 1000MPa, tension controlled & singly-reinforced</p>
+            <br>
+            <br>
+            <h4>Longitudinal Reinforcement Design</h4>
+            <br>
+            <p>N = 
+                <math>
+                <mrow>
+                    <mfrac>
+                     <mi>As<sub>req</sub></mi>
+                     <mi>π/4 x db<sup>2</sup></mi>
+                    </mfrac>
+                   </mrow>
+                  </math>
+                   = {{ beam.Nm }}
+            </p>
+            <br>
+            <p>number of top bars = ceil(N) = {{ beam.Nmt }}</p>
+            <br>
+            <p>mumber of bottom bars = max(2, ceil(
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>N</mi>
+                      <mi>2</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>))
+                    = {{ beam.Nmb }}
+            </p>
+            <br>
+            <br>
+            <h3>Shear Design</h3>
+            <br>
+            <p>ρ<sub>act1</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Nst x π/4 x db<sup>2</sup></mi>
+                      <mi>b x d</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.pact1 }}
+            </p>
+            <br>
+            <p>ρ<sub>act2</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Nst x π/4 x db<sup>2</sup></mi>
+                      <mi>b x d</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.pact2 }}
+            </p>
+            <br>
+            <h4>Probable Moment</h4>
+            <br>
+            <p>V<sub>T</sub> = 1.2 x V<sub>DL</sub> + 1.6 x V<sub>LL</sub> = {{ beam.Vt }}</p>
+            <br>
+            <p>M<sub>pr1</sub> = ρ<sub>act1</sub> x 1.25 x fy x b x d<sup>2</sup> x (1 - 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>10 x ρ<sub>act1</sub> x 1.25 x fy</mi>
+                      <mi>17 x fc</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>)
+                    = {{ beam.Mpr1 }}kN-m
+            </p>
+            <br>
+            <p>M<sub>pr2</sub> = ρ<sub>act2</sub> x 1.25 x fy x b x d<sup>2</sup> x (1 - 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>10 x ρ<sub>act2</sub> x 1.25 x fy</mi>
+                      <mi>17 x fc</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>)
+                    = {{ beam.Mpr2 }}kN-m
+            </p>
+            <br>
+            <br>
+            <br>
+            <h4>Concrete Shear Strength</h4>
+            <br>
+            <p>V<sub>e</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>M<sub>pr1</sub> + M<sub>pr2</sub></mi>
+                      <mi>L<sub>c</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    + V<sub>T</sub> = {{ beam.Ve }}kN
+            </p>
+            <br>
+            <p>Vu<sub>max</sub> = max(Vu, V<sub>e</sub>) = {{ beam.Vumax }}kN</p>
+            <br>
+            <p>Mu<sub>max</sub> = max(Mu<sub>s</sub>, M<sub>pr1</sub>, M<sub>pr2</sub>) = {{ beam.Mumax }}kN-m</p>
+            <br>
+            <p>Vc<sub>1</sub> = 0.17 x λ x √fc x b x d = {{ beam.Vc1 }}kN</p>
+            <br>
+            <p>Vc<sub>2</sub> = (0.16 x λ x √fc + 17 x ρ<sub>act1</sub> x 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Vu<sub>max</sub> x d</mi>
+                      <mi>Mu<sub>max</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>)
+                    x b x d = {{ beam.Vc2 }}kN
+            </p>
+            <br>
+            <p>Vc<sub>3</sub> = (0.16 x λ x √fc + 17 x ρ<sub>act1</sub>) x b x d = {{ beam.Vc3 }}kN</p>
+            <br>
+            <p>if &nbsp; 
+                <math>
+                <mrow>
+                 <mfrac>
+                  <mi>M<sub>pr1</sub> + M<sub>pr2</sub></mi>
+                  <mi>L<sub>c</sub></mi>
+                 </mfrac>
+                </mrow>
+               </math>
+               > 0.5 x V<sub>e</sub>:
+            </p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp; Vc = 0kN</p>
+            <p>else:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp; Vc = max(Vc<sub>1</sub>, Vc<sub>2</sub>, Vc<sub>3</sub>)</p>
+            <br>
+            <p>Vc = {{ beam.Vc }}kN</p>
+            <br>
+            <br>
+            <h4>Stirrup Shear Strength</h4>
+            <br>
+            <p>Φ<sub>v</sub> = {{ beam.Φv  }}</p>
+            <br>
+            <p>Since Vu<sub>max</sub> > Φ<sub>v</sub> x Vc, <b>provide stirrups</b></p>
+            <br>
+            <p>Vs = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Vu<sub>max</sub></mi>
+                      <mi>Φ<sub>v</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    - Vc = {{ beam.Vs }}kN
+            </p>
+            <br>
+            <p>Vs<sub>max</sub> = 0.67 x √fc x b x d = {{ beam.Vsmax }}kN</p>
+            <br>
+            <p>Since Vs<sub>max</sub> > Vs, <b>OK</b></p>
+            <br>
+            <br>
+            <h4>Stirrup Spacing Design</h4>
+            <br>
+            <p>Av = 2 x π/4 x db<sub>v</sub><sup>2</sup> = {{ beam.Av }}mm<sup>2</sup></p>
+            <br>
+            <p>S<sub>req</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>Av x fy x d</mi>
+                      <mi>Vs</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    = {{ beam.Sreq}}mm
+            </p>
+            <br>
+            <p>S<sub>1</sub> = Floor(min(S<sub>req</sub>, 150mm, 6 x db, 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>d</mi>
+                      <mi>4</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>),
+                    5mm) = {{ beam.S1 }}mm
+            </p>
+            <br>
+            <p>n = ceil(
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>2 x h - 50mm</mi>
+                      <mi>S<sub>1</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>)
+                    = 17
+            </p>
+            <br>
+            <p>Av<sub>min1</sub> = 0.062 x √fc x 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>b</mi>
+                      <mi>fy<sub>v</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    x S<sub>1</sub> = {{ beam.Avmin1 }}mm<sup>2</sup>
+            </p>
+            <p>Av<sub>min2</sub> = 0.35 x 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>b</mi>
+                      <mi>fy<sub>v</sub></mi>
+                     </mfrac>
+                    </mrow>
+                   </math>
+                    x S<sub>1</sub> = {{ beam.Avmin2 }}mm<sup>2</sup>
+            </p>
+            <br>
+            <p>Av<sub>min</sub> = max(Av<sub>min1</sub>, Av<sub>min2</sub>) = {{ beam.Avmin }}mm<sup>2</sup></p>
+            <br>
+            <p>Since Av > Av<sub>min</sub>, <b>OK</b></p>
+            <br>
+            <p>S<sub>2</sub> = Floor(min(100mm, 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>d</mi>
+                      <mi>4</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>),
+                    25mm) = {{ beam.S2 }}mm
+            </p>
+            <br>
+            <p>if 0.33 x √fc x b x d ≥ Vs</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp; S<sub>3</sub> = Floor(min(
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>d</mi>
+                      <mi>2</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>, 
+                   600mm), 25mm)
+            </p>
+            <p>else:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp; S<sub>3</sub> = Floor(min( 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>d</mi>
+                      <mi>4</mi>
+                     </mfrac>
+                    </mrow>
+                   </math>, 
+                   300mm), 25mm)               
+            </p>
+            <br>
+            <p>S<sub>3</sub> = {{ beam.S3 }}mm</p>
+            <br>
+            <br>
+            <h3>Crack Width Check</h3>
+            <br>
+            <p>Sc<sub>act</sub> = 
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>b - 2 x c<sub>c</sub> - 2 x db<sub>v</sub> - db</mi>
+                      <mi>min(N<sub>st</sub>, min(N<sub>sb</sub>, min(N<sub>mt</sub>, min(N<sub>mb</sub></mi>
+                     </mfrac>
+                    </mrow>
+                </math>
+                 = {{ beam.Scact }}mm
+            </p>
+            <br>
+            <p>Sc<sub>all1</sub> = 380 x (
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>280</mi>
+                      <mi>2/3 x fy</mi>
+                     </mfrac>
+                    </mrow>
+                </math>)
+                 - 2.5 x c<sub>c</sub> = {{ beam.Scall1 }}mm
+            </p>
+            <br>
+            <p>Sc<sub>all2</sub> = 300 x (
+                <math>
+                    <mrow>
+                     <mfrac>
+                      <mi>280</mi>
+                      <mi>2/3 x fy</mi>
+                     </mfrac>
+                    </mrow>
+                </math>)
+                 = {{ beam.Scall2 }}mm
+            </p>
+            <br>
+            <p>Sc<sub>all</sub> = min(Sc<sub>all1</sub>, Sc<sub>all2</sub>) = {{ beam.Scall }}mm</p>
+            <br>
+            <p>Since Sc<sub>all</sub> > Sc<sub>act</sub>, <b>OK</b></p>
+            <br>
+            <br>
+            <h3>Summary for {{ member.member_name }}:</h3>
+            <br>
+            <p>Provide {{ beam.Nst }}-{{ beam.dbm }}mm⌀ top bars and {{ beam.Nsb }}-{{ beam.dbm }}mm⌀ bottom bars at support</p>
+            <br>
+            <p>Provide {{ beam.Nmt }}-{{ beam.dbm }}mm⌀ top bars and {{ beam.Nmb }}-{{ beam.dbm }}mm⌀ bottom bars at midspan</p>
+            <br>
+            <p>Provide 2-legged {{ beam.dbv }}mm⌀ stirrups spaced at 1@50mm, {{ beam.n }}@{{ beam.S1 }}mm, {{ beam.S2 }}mm@lap splicing zone & rest@{{ beam.S3 }}mm O.C.</p>
+        </main>
+    </body>
+</html>

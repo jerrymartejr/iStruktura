@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Addition Calculator - {{ member.member_name }}
+{% endblock %}
+
+{% block main %}
+
+<div style="background-color: gray; height: 30vh; width: 30vh;">
+    <h3>Structural Report</h3>
+    <p>{{ addnum.addend1 }} + {{ addnum.addend2 }} = {{ addnum.sum }}</p>
+</div>
+
+
+{% endblock %}

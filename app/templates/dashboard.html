@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+<h2  class="second-header">Welcome, {{ current_user.username }}</h2>
+<div>
+    <div class="container">
+        <h3 class="small-db-header">Recent files</h3>
+        <div class="recent">
+            {% for member in members %}
+            <div class="file-card">
+                <div>
+                    <img src="static/images/{{ member.member_type }}.png">
+                </div>
+                <div class="file-details">
+                    <p class="name">{{ member.member_name }}</p>
+                    <p class="type">{{ member.member_type }}</p>
+                    <p class="time">{{ member.timestamp2 }}</p>
+                </div>
+                <div class="file-view">
+                    <form action="/report" method="post">                                           
+                            {{ form.hidden(value=member.id) }}
+                            {{ form.submit(class="fix-this", id="view-button") }}
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="view-more-button">
+            <a href="{{ url_for('files') }}">View more</a>
+        </div>
+    </div>
+    <div class="container">
+        <h3 class="small-db-header">Design Tools</h3>
+        <div class="recent">
+            <a href="{{ url_for('singly') }}" class="tool-card">
+                <div class="singly">
+                    <img src="static/images/Singly-Reinforced Beam.png">
+                </div>
+                <div>
+                    <p class="tool-name">Singly-Reinforced Beam</p>
+                </div>
+            </a>
+            <a href="{{ url_for('doubly') }}" class="tool-card">
+                <div class="singly">
+                    <img src="static/images/Doubly-Reinforced Beam.png">
+                </div>
+                <div>
+                    <p class="tool-name">Doubly-Reinforced Beam</p>
+                </div>
+            </a>
+            <div class="tool-card">
+                <div class="column">
+                    <img src="static/images/Column.png">
+                </div>
+                <div>
+                    <p class="tool-name">Column</p>
+                </div>
+            </div>
+            <div class="tool-card">
+                <div class="footing">
+                    <img src="static/images/Footing.png">
+                </div>
+                <div>
+                    <p class="tool-name">Footing</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

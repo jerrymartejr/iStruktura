@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Addition Calculator
+{% endblock %}
+
+{% block main %}
+
+    <h1>Addition Calculator</h1>
+    {% if sum %}
+
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.member_name.label }}
+            <br>
+            {{ form.member_name(size=32, value=member_name) }}
+            <br>
+            {% for error in form.member_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.addend1.label }}
+            <br>
+            {{ form.addend1(value=addend1) }}
+            <br>
+            {% for error in form.addend1.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.addend2.label }}
+            <br>
+            {{ form.addend2(value=addend2) }}
+            <br>
+            {% for error in form.addend2.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+        <p>{{ form.save() }}</p>
+        <!--p><input name="save" type="submit" value="Save"></p-->
+    </form>
+    <div style="background-color: gray; height: 30vh; width: 30vh;">
+        <h3>Design Check</h3>
+        <p>{{ addend1 }} + {{ addend2 }} = {{ sum }}</p>
+    </div>
+
+    {% else %}
+
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.member_name.label }}
+            <br>
+            {{ form.member_name(size=32) }}
+            <br>
+            {% for error in form.member_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.addend1.label }}
+            <br>
+            {{ form.addend1 }}
+            <br>
+            {% for error in form.addend1.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.addend2.label }}
+            <br>
+            {{ form.addend2 }}
+            <br>
+            {% for error in form.addend2.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <div style="background-color: gray; width: 30vh;"></div>
+
+    {% endif %}
+
+{% endblock %}

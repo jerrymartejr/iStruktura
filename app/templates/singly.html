@@ -1,0 +1,508 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Design of Singly-Reinforced Beam
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="main-header">Singly-Reinforced Beam</h1>
+    <div class="main-container">
+        <div class="parameter">
+            <div class="container">
+                <h2 class="design-header">Design Data</h2>
+                <div class="singly-drawing">
+                    <img src="static/images/singly.png">
+                </div>
+                <div class="form-wrapper">
+
+                    {% if b %}
+
+                    <form action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p class="design-name">
+                            {{ form.member_name.label }}
+                            {{ form.member_name(size=32, value=member_name) }}
+                            <br>
+                            {% for error in form.member_name.errors %}
+                            <span class="error">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                        <div class="parameter-container">
+                            <div class="sub-container">
+                                <h3>Dimensions</h3>
+                                <p>
+                                    {{ form.h.label }}
+                                    {{ form.h(size=10, value=h) }}
+                                    <br>
+                                    {% for error in form.h.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.b.label }}
+                                    {{ form.b(size=10, value=b) }}
+                                    <br>
+                                    {% for error in form.b.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.cc.label }}
+                                    {{ form.cc(size=10, value=cc) }}
+                                    <br>
+                                    {% for error in form.cc.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.dbm.label }}
+                                    {{ form.dbm(size=10, value=dbm) }}
+                                    <br>
+                                    {% for error in form.dbm.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.dbv.label }}
+                                    {{ form.dbv(size=10, value=dbv) }}
+                                    <br>
+                                    {% for error in form.dbv.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Lc.label }}
+                                    {{ form.Lc(size=10, value=Lc) }}
+                                    <br>
+                                    {% for error in form.Lc.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="sub-container">
+                                <h3>Materials</h3>
+                                <p>
+                                    {{ form.fc.label }}
+                                    {{ form.fc(size=10, value=fc) }}
+                                    <br>
+                                    {% for error in form.fc.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.fy.label }}
+                                    {{ form.fy(size=10, value=fy) }}
+                                    <br>
+                                    {% for error in form.fy.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.fyv.label }}
+                                    {{ form.fyv(size=10, value=fyv) }}
+                                    <br>
+                                    {% for error in form.fyv.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.k.label }}
+                                    {{ form.k(size=10, value=k) }}
+                                    <br>
+                                    {% for error in form.k.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                
+                                <p>
+                                    {{ form.λ.label }}
+                                    {{ form.λ(size=10, value=λ) }}
+                                    <br>
+                                    {% for error in form.λ.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="sub-container">
+                                <h3>Loads</h3>
+                                <p>
+                                    {{ form.Mus.label }}
+                                    {{ form.Mus(size=10, value=Mus) }}
+                                    <br>
+                                    {% for error in form.Mus.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Mum.label }}
+                                    {{ form.Mum(size=10, value=Mum) }}
+                                    <br>
+                                    {% for error in form.Mum.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Vu.label }}
+                                    {{ form.Vu(size=10, value=Vu) }}
+                                    <br>
+                                    {% for error in form.Vu.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Pu.label }}
+                                    {{ form.Pu(size=10, value=Pu) }}
+                                    <br>
+                                    {% for error in form.Pu.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Vdl.label }}
+                                    {{ form.Vdl(size=10, value=Vdl) }}
+                                    <br>
+                                    {% for error in form.Vdl.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Vll.label }}
+                                    {{ form.Vll(size=10, value=Vll) }}
+                                    <br>
+                                    {% for error in form.Vll.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        <p class="button-center">{{ form.submit(value="Redesign", class="fix-this", id="design-button") }}</p>
+                        <p class="button-center">{{ form.save(class="fix-this", id="design-button") }}</p>
+                    </form>
+
+                    {% else %}
+
+                    <form action="" method="post" novalidate>
+                        {{ form.hidden_tag() }}
+                        <p class="design-name">
+                            {{ form.member_name.label }}
+                            {{ form.member_name(size=32) }}
+                            <br>
+                            {% for error in form.member_name.errors %}
+                            <span class="error">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                        <div class="parameter-container">
+                            <div class="sub-container">
+                                <h3>Dimensions</h3>
+                                <p>
+                                    {{ form.h.label }}
+                                    {{ form.h(size=10) }}
+                                    <br>
+                                    {% for error in form.h.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.b.label }}
+                                    {{ form.b(size=10) }}
+                                    <br>
+                                    {% for error in form.b.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.cc.label }}
+                                    {{ form.cc(size=10) }}
+                                    <br>
+                                    {% for error in form.cc.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.dbm.label }}
+                                    {{ form.dbm(size=10) }}
+                                    <br>
+                                    {% for error in form.dbm.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.dbv.label }}
+                                    {{ form.dbv(size=10) }}
+                                    <br>
+                                    {% for error in form.dbv.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Lc.label }}
+                                    {{ form.Lc(size=10) }}
+                                    <br>
+                                    {% for error in form.Lc.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="sub-container">
+                                <h3>Material</h3>
+                                <p>
+                                    {{ form.fc.label }}
+                                    {{ form.fc(size=10) }}
+                                    <br>
+                                    {% for error in form.fc.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.fy.label }}
+                                    {{ form.fy(size=10) }}
+                                    <br>
+                                    {% for error in form.fy.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.fyv.label }}
+                                    {{ form.fyv(size=10) }}
+                                    <br>
+                                    {% for error in form.fyv.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.k.label }}
+                                    {{ form.k(size=10, value=0.75) }}
+                                    <br>
+                                    {% for error in form.k.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                
+                                <p>
+                                    {{ form.λ.label }}
+                                    {{ form.λ(size=10, value=1.0) }}
+                                    <br>
+                                    {% for error in form.λ.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="sub-container">
+                                <h3>Loads</h3>
+                                <p>
+                                    {{ form.Mus.label }}
+                                    {{ form.Mus(size=10) }}
+                                    <br>
+                                    {% for error in form.Mus.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Mum.label }}
+                                    {{ form.Mum(size=10) }}
+                                    <br>
+                                    {% for error in form.Mum.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Vu.label }}
+                                    {{ form.Vu(size=10) }}
+                                    <br>
+                                    {% for error in form.Vu.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Pu.label }}
+                                    {{ form.Pu(size=10) }}
+                                    <br>
+                                    {% for error in form.Pu.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Vdl.label }}
+                                    {{ form.Vdl(size=10) }}
+                                    <br>
+                                    {% for error in form.Vdl.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                                <p>
+                                    {{ form.Vll.label }}
+                                    {{ form.Vll(size=10) }}
+                                    <br>
+                                    {% for error in form.Vll.errors %}
+                                    <span class="error">[{{ error }}]</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>                 
+                        <p  class="button-center">{{ form.submit(class="fix-this", id="design-button") }}</p>
+                    </form>                
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <div class="result">
+            <div class="container">
+                <h2 class="result-header">Design Result Summary</h2>
+
+                {% if b %}
+
+                <div class="result-summary">
+                    <h3>Dimension check</h3>
+                    <table>
+                        <tr>
+                            <td>Minimum width check</td>
+                            <td>b ≥ min(0.3 * h, 250mm)</td>
+                            {% if b_check == '✓' %}
+                            <td>{{ b_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Minimum span check</td>
+                            <td>L<sub>c</sub> ≥ 4 * d</td>
+                            {% if span_check == '✓' %}
+                            <td>{{ span_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <h3>Flexure Design at Support</h3>
+                    <table>
+                        <tr>
+                            <td>Ductility check</td>
+                            <td>ρ<sub>min</sub> &#60; ρ<sub>req</sub> &#60; ρ<sub>max</sub></td>
+                            {% if duct_checks == '✓' %}
+                            <td>{{ duct_checks }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Yield check</td>
+                            <td>fs > 415 MPa</td>
+                            {% if yield_checks == '✓' %}
+                            <td>{{ yield_checks }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Singly check</td>
+                            <td>fs > 1000 MPa</td>
+                            {% if singly_checks == '✓' %}
+                            <td>{{ singly_checks }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <p>Provide {{ Nst }}-{{ dbm }}mm⌀ top bars and {{ Nsb }}-{{ dbm }}mm⌀ bottom bars at support</p>
+                    <h3>Flexure Design at Midspan</h3>
+                    <table>
+                        <tr>
+                            <td>Ductility check</td>
+                            <td>ρ<sub>min</sub> &#60; ρ<sub>req</sub> &#60; ρ<sub>max</sub></td>
+                            {% if duct_checkm == '✓' %}
+                            <td>{{ duct_checkm }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Yield check</td>
+                            <td>fs > 415 MPa</td>
+                            {% if yield_checkm == '✓' %}
+                            <td>{{ yield_checkm }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Singly check</td>
+                            <td>fs > 1000 MPa</td>
+                            {% if singly_checkm == '✓' %}
+                            <td>{{ singly_checkm }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <p>Provide {{ Nmt }}-{{ dbm }}mm⌀ top bars and {{ Nmb }}-{{ dbm }}mm⌀ bottom bars at midspan</p>
+                    <h3>Shear Design</h3>
+                    <table>
+                        <tr>
+                            <td>Stirrup req. check</td>
+                            <td>Vu<sub>max</sub> > Φv * Vc</td>
+                            {% if stirrup_required == '✓' %}
+                            <td>{{ stirrup_required }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Section check</td>
+                            <td>Vs<sub>max</sub> ≥ Vs</td>
+                            {% if section_check == '✓' %}
+                            <td>{{ section_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td>Av check</td>
+                            <td>Av ≥ Av<sub>min</sub></td>
+                            {% if Av_check == '✓' %}
+                            <td>{{ Av_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <p>Provide 2-legged {{ dbv }}mm⌀ stirrups spaced at 1@50mm, {{ n }}@{{ S1 }}mm, {{ S2 }}mm@lap splicing zone & rest@{{ S3 }}mm O.C.</p>
+                    <h3>Axial</h3>
+                    <table>
+                        <tr>
+                            <td>Axial capacity check</td>
+                            <td>Pu<sub>max</sub> ≥ Pu</td>
+                            {% if axial_check == '✓' %}
+                            <td>{{ axial_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    <h3>Crack Width</h3>
+                    <table>
+                        <tr>
+                            <td>Crack width check</td>
+                            <td>Sc<sub>all</sub> ≥ Sc<sub>act</sub></td>
+                            {% if crack_width_check == '✓' %}
+                            <td>{{ crack_width_check }}</td>
+                            {% else %}
+                            <td style="color: red;">✗</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                </div>
+
+                {% else %}
+
+                <div class="result-summary"></div>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </div> 
+
+{% endblock %}

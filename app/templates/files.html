@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Design Files
+{% endblock %}
+
+{% block main %}
+
+<h2 class="file-header">Design Files</h2>
+    <div class="container">
+    <table class="file-table">
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>Member Name</th>
+                <th>File Type</th>
+                <th>Date Saved</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td class="flex">
+                    <form action="/report" method="post">                                           
+                            {{ form.hidden(value=member.id) }}
+                            {{ form.submit(class="fix-this", id="file-button") }}
+                    </form>
+                    <form action="/delete" method="post">                                           
+                        {{ form1.hidden(value=member.id) }}
+                        {{ form1.submit(class="fix-this", id="file-button") }}
+                    </form>
+                </td>
+                <td>{{ member.member_name }}</td>
+                <td>{{ member.member_type }}</td>
+                <td>{{ member.timestamp2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

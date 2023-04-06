@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Subtraction Calculator
+{% endblock %}
+
+{% block main %}
+
+    <h1>Subtraction Calculator</h1>
+    {% if difference %}
+
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.member_name.label }}
+            <br>
+            {{ form.member_name(size=32, value=member_name) }}
+            <br>
+            {% for error in form.member_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.minuend.label }}
+            <br>
+            {{ form.minuend(value=minuend) }}
+            <br>
+            {% for error in form.minuend.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.subtrahend.label }}
+            <br>
+            {{ form.subtrahend(value=subtrahend) }}
+            <br>
+            {% for error in form.subtrahend.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+        <p>{{ form.save() }}</p>
+        <!--p><input name="save" type="submit" value="Save"></p-->
+    </form>
+    <div style="background-color: gray; height: 30vh; width: 30vh;">
+        <h3>Design Check</h3>
+        <p>{{ minuend }} - {{ subtrahend }} = {{ difference }}</p>
+    </div>
+
+    {% else %}
+
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.member_name.label }}
+            <br>
+            {{ form.member_name(size=32) }}
+            <br>
+            {% for error in form.member_name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.minuend.label }}
+            <br>
+            {{ form.minuend }}
+            <br>
+            {% for error in form.minuend.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.subtrahend.label }}
+            <br>
+            {{ form.subtrahend }}
+            <br>
+            {% for error in form.subtrahend.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <div style="background-color: gray; height: 30vh; width: 30vh;"></div>
+
+    {% endif %}
+
+{% endblock %}
